@@ -1,16 +1,12 @@
-// const links = document.querySelectorAll('.navbar-list');
-// const containers = document.querySelectorAll('.container');
-// const bookHeading = document.querySelector('.book--heading');
-
-import { DateTime } from './modules/luxon.js';
 import { links, containers, bookHeading } from './modules/variables.js';
+import { dateData } from './modules/DateAndTime.js' ;
 
-function hideAllContainers() {
+const hideAllContainers = () => {
   containers.forEach((container) => {
     container.style.display = 'none';
   });
 }
-function removeAllActiveLInks() {
+const removeAllActiveLInks = () => {
   links.forEach((link) => {
     link.classList.remove('show--active--link');
   });
@@ -18,8 +14,8 @@ function removeAllActiveLInks() {
 
 // Get date data from luxon.js
 const dateElement = document.querySelector('.date');
-const dateData = DateTime.now();
-dateElement.innerText = dateData.toString();
+dateElement.innerText = dateData;
+console.log(dateData);
 
 links.forEach((link) => {
   link.addEventListener('click', (e) => {
@@ -58,25 +54,31 @@ class BookStore {
     this.displayBooks();
   }
 
-  displayBooks() {
+  displayBooks = () => {
     this.bookListDiv.innerHTML = '';
 
     for (let i = 0; i < this.bookStore.length; i += 1) {
       const book = this.bookStore[i];
 
-      const bookHTML = `
-        <div class="book">
-          <p>${book.bookTitle}</p>
-          <p>${book.bookAuthor}</p>
-          <button onclick="bookStore.removeBook(${i})">Remove</button>
-        </div>
+      const bookElement = document.createElement('div');
+      bookElement.classList.add('book');
+      bookElement.innerHTML = `
+        <p>${book.bookTitle}</p>
+        <p>${book.bookAuthor}</p>
+        <button class="remove-button">Remove</button>
       `;
-      this.bookListDiv.innerHTML += bookHTML;
+
+      const removeButton = bookElement.querySelector('.remove-button');
+      removeButton.addEventListener('click', () => {
+        this.removeBook(i);
+      });
+
+      this.bookListDiv.appendChild(bookElement);
       this.checkForBookstoreLength();
     }
   }
 
-  addBook() {
+  addBook = () => {
     const bookTitle = document.getElementById('title').value;
     const bookAuthor = document.getElementById('author').value;
     const newBook = { bookTitle, bookAuthor };
@@ -86,22 +88,21 @@ class BookStore {
     this.clearForm();
   }
 
-  removeBook(index) {
+  removeBook = (index) => {
     this.bookStore.splice(index, 1);
     localStorage.setItem('bookItem', JSON.stringify(this.bookStore));
     this.displayBooks();
     this.checkForBookstoreLength();
   }
 
-  checkForBookstoreLength() {
+  checkForBookstoreLength = () => {
     return this.bookStore.length > 0 ? this.bookListDiv.classList.add('showBookListBorder') : this.bookListDiv.classList.remove('showBookListBorder');
   }
 
-  clearForm() {
-    this.document.getElementById('title').value = '';
-    this.document.getElementById('author').value = '';
+  clearForm = () => {
+    document.getElementById('title').value = '';
+    document.getElementById('author').value = '';
   }
 }
 
-this.bookStore = new BookStore();
-console.log(bookStore);
+const bookStore = new BookStore();
