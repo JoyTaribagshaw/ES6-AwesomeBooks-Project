@@ -1,21 +1,20 @@
 import { links, containers, bookHeading } from './modules/variables.js';
-import { dateData } from './modules/DateAndTime.js' ;
+import dateData from './modules/DateAndTime.js';
 
 const hideAllContainers = () => {
   containers.forEach((container) => {
     container.style.display = 'none';
   });
-}
+};
 const removeAllActiveLInks = () => {
   links.forEach((link) => {
     link.classList.remove('show--active--link');
   });
-}
+};
 
 // Get date data from luxon.js
 const dateElement = document.querySelector('.date');
 dateElement.innerText = dateData;
-console.log(dateData);
 
 links.forEach((link) => {
   link.addEventListener('click', (e) => {
@@ -95,9 +94,7 @@ class BookStore {
     this.checkForBookstoreLength();
   }
 
-  checkForBookstoreLength = () => {
-    return this.bookStore.length > 0 ? this.bookListDiv.classList.add('showBookListBorder') : this.bookListDiv.classList.remove('showBookListBorder');
-  }
+  checkForBookstoreLength = () => (this.bookStore.length > 0 ? this.bookListDiv.classList.add('showBookListBorder') : this.bookListDiv.classList.remove('showBookListBorder'))
 
   clearForm = () => {
     document.getElementById('title').value = '';
