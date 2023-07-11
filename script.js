@@ -2,11 +2,9 @@
 // const containers = document.querySelectorAll('.container');
 // const bookHeading = document.querySelector('.book--heading');
 
-// import { DateTime } from './node_modules/luxon/build/es6/luxon.js';
+import { DateTime } from './modules/luxon.js';
 import { links, containers, bookHeading } from './modules/variables.js';
 
-// const now = DateTime.now();
-// console.log(now);
 function hideAllContainers() {
   containers.forEach((container) => {
     container.style.display = 'none';
@@ -17,6 +15,11 @@ function removeAllActiveLInks() {
     link.classList.remove('show--active--link');
   });
 }
+
+// Get date data from luxon.js
+const dateElement = document.querySelector('.date');
+const dateData = DateTime.now();
+dateElement.innerText = dateData.toString();
 
 links.forEach((link) => {
   link.addEventListener('click', (e) => {
@@ -101,3 +104,4 @@ class BookStore {
 }
 
 this.bookStore = new BookStore();
+console.log(bookStore);
